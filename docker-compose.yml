@@ -129,6 +129,41 @@ services:
     networks:
       - cravedrop-network
 
+#Order-service
+  order-service:
+    build:
+      context: ./order_service
+      target: development
+    container_name: order-service
+    hostname: order-service
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./order_service/.env
+    command: yarn dev
+    develop:
+      watch:
+        - action: rebuild
+          path: ./order_service/package.json
+        - action: rebuild
+          path: ./order_service/yarn.lock
+        - action: sync+restart
+          path: ./order_service/src/index.ts
+          target: /app/index.ts
+        - action: sync
+          path: ./order_service/src
+          target: /app
+          ignore:
+            - node_modules
+    depends_on:
+      mongo:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - cravedrop-network
+
+
   postgres:
     image: postgres:alpine
     container_name: postgres
@@ -187,8 +222,17 @@ services:
     networks:
       - cravedrop-network
 
+# mongodb for order service
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data:/data/db
+
 volumes:
   pg_data:
+  mongo_data: #for order service
 
 networks:
   cravedrop-network:
