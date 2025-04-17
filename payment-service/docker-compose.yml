@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  payment-service:
+    build: .
+    container_name: payment-service
+    ports:
+      - "5002:5002"
+    environment:
+      - STRIPE_SECRET_KEY=sk_test_51RErI8RaMVEyYN7klXZ136cWhgdqEbXEs30HH0WPZjTqFmLgYCOnwNPDpkmz1PzyX6alS64Fh9AAjujibIlbKaAz00X2X3urR5
+    networks:
+      - order-management-network
+
+networks:
+  order-management-network:
+    external: true
