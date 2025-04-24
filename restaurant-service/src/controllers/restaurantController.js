@@ -46,15 +46,44 @@ exports.deleteMenuItem = async (req, res) => {
   try {
     const { restaurantId, itemId } = req.params;
 
+    // Find the restaurant by ID
     const restaurant = await Restaurant.findById(restaurantId);
     if (!restaurant) return res.status(404).json({ message: "Restaurant not found" });
 
-    restaurant.menu.id(itemId).remove();
+    // Find the index of the menu item by ID
+    const menuItemIndex = restaurant.menu.findIndex(item => item._id.toString() === itemId);
+    if (menuItemIndex === -1) return res.status(404).json({ message: "Menu item not found" });
+
+    // Remove the menu item from the array
+    restaurant.menu.pull({ _id: itemId });
     await restaurant.save();
 
     res.json({ message: "Menu item deleted successfully", menu: restaurant.menu });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    console.error("Error deleting menu item:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+exports.deleteAllMenuItems = async (req, res) => {
+  try {
+    const { restaurantId } = req.params;
+
+    // Find the restaurant by ID
+    const restaurant = await Restaurant.findById(restaurantId);
+    if (!restaurant) return res.status(404).json({ message: "Restaurant not found" });
+
+    // Clear the entire menu array
+    restaurant.menu = [];
+    await restaurant.save();
+
+    res.json({ 
+      message: "All menu items deleted successfully", 
+      menu: restaurant.menu 
+    });
+  } catch (error) {
+    console.error("Error deleting all menu items:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
@@ -125,6 +154,20 @@ exports.getRestaurantById = async (req, res) => {
   }
 };
 
+// Get menu items for a specific restaurant
+exports.getMenuItems = async (req, res) => {
+  try {
+    const { restaurantId } = req.params;
+
+    const restaurant = await Restaurant.findById(restaurantId);
+    if (!restaurant) return res.status(404).json({ message: "Restaurant not found" });
+
+    res.json({ menu: restaurant.menu });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
 // Get restaurant by owner (using authenticated user)
 exports.getMyRestaurant = async (req, res) => {
   try {
@@ -163,6 +206,22 @@ exports.deleteMyRestaurant = async (req, res) => {
     res.json({ message: "Restaurant deleted successfully" });
   } catch (error) {
     console.error("Delete restaurant error:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+// Delete restaurant by ID
+exports.deleteRestaurantById = async (req, res) => {
+  try {
+    const { restaurantId } = req.params;
+
+    const restaurant = await Restaurant.findById(restaurantId);
+    if (!restaurant) return res.status(404).json({ message: "Restaurant not found" });
+
+    await Restaurant.findByIdAndDelete(restaurantId);
+
+    res.json({ message: "Restaurant deleted successfully" });
+  } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };

@@ -8,7 +8,10 @@ const {
   updateRestaurantProfile,
   getRestaurantById,
   getMyRestaurant,
-  deleteMyRestaurant
+  deleteMyRestaurant,
+  getMenuItems,
+  deleteRestaurantById,
+  deleteAllMenuItems // Add this import
 } = require("../controllers/restaurantController");
 const { protect } = require("../middleware/authMiddleware"); // Assuming this exists
 
@@ -20,11 +23,14 @@ router.get("/:restaurantId", getRestaurantById);  // For getting restaurant by I
 
 // Add the new delete route (protected by authentication)
 router.delete("/me", protect, deleteMyRestaurant);
+router.delete("/:restaurantId", protect, deleteRestaurantById); // New route for deleting a restaurant by ID
 
 // Existing routes
 router.post("/menu", addMenuItem);
 router.put("/menu/:restaurantId/:itemId", updateMenuItem);
-router.delete("/menu/:restaurantId/:itemId", deleteMenuItem);
+router.delete("/menu/:restaurantId/all", protect, deleteAllMenuItems); // This should come FIRST
+router.delete("/menu/:restaurantId/:itemId", deleteMenuItem); // This should come AFTER
+router.get("/menu/:restaurantId", getMenuItems); // New route for getting menu items
 router.post("/availability", setAvailability);
 router.get("/orders", viewOrders);
 router.put("/:restaurantId", updateRestaurantProfile);
