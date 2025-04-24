@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  driver-service:
+    build:
+      context: .
+      target: development
+    container_name: driver-service
+    hostname: driver-service
+    ports:
+      - "4000:4000"
+    env_file:
+      - .env
+    command: npm run dev
+    volumes:
+      - ./src:/app/src
+      - /app/node_modules
+    networks:
+      - cravedrop-network
+    restart: unless-stopped
+    develop:
+      watch:
+        - action: rebuild
+          path: package.json
+        - action: sync+restart
+          path: src/
+          target: /app/src
+          ignore:
+            - node_modules
+
+networks:
+  cravedrop-network:
+    name: cravedrop-network
+    external: true
