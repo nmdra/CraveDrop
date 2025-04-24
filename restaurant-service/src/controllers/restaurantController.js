@@ -58,7 +58,7 @@ exports.deleteMenuItem = async (req, res) => {
   }
 };
 
-// Set restaurant availability
+// Route: POST /api/restaurant/availability
 exports.setAvailability = async (req, res) => {
   try {
     const { restaurantId, isOpen } = req.body;
@@ -88,3 +88,82 @@ exports.viewOrders = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+// Update restaurant profile
+exports.updateRestaurantProfile = async (req, res) => {
+  try {
+    const { restaurantId } = req.params;
+    const { name, description, telephoneNumber, location } = req.body;
+
+    const restaurant = await Restaurant.findById(restaurantId);
+    if (!restaurant) return res.status(404).json({ message: "Restaurant not found" });
+
+    // Update fields if provided
+    if (name) restaurant.name = name;
+    if (description) restaurant.description = description;
+    if (telephoneNumber) restaurant.telephoneNumber = telephoneNumber;
+    if (location) restaurant.location = location;
+
+    await restaurant.save();
+    res.json({ message: "Restaurant profile updated successfully", restaurant });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+// Get restaurant details by ID
+exports.getRestaurantById = async (req, res) => {
+  try {
+    const { restaurantId } = req.params;
+
+    const restaurant = await Restaurant.findById(restaurantId);
+    if (!restaurant) return res.status(404).json({ message: "Restaurant not found" });
+
+    res.json(restaurant);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+// Get restaurant by owner (using authenticated user)
+exports.getMyRestaurant = async (req, res) => {
+  try {
+    // Assuming req.user contains the authenticated user's email from auth middleware
+    const userEmail = req.user.email;
+    
+    const restaurant = await Restaurant.findOne({ email: userEmail });
+    if (!restaurant) return res.status(404).json({ message: "Restaurant not found" });
+
+    res.json(restaurant);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+// Delete restaurant (for restaurant owners)
+exports.deleteMyRestaurant = async (req, res) => {
+  try {
+    // Check if req.user exists
+    if (!req.user || !req.user.email) {
+      return res.status(401).json({ 
+        message: "Authentication required. User information missing." 
+      });
+    }
+    
+    // Get the authenticated user's email from the auth middleware
+    const userEmail = req.user.email;
+    
+    // Find the restaurant by email
+    const restaurant = await Restaurant.findOne({ email: userEmail });
+    if (!restaurant) return res.status(404).json({ message: "Restaurant not found" });
+    
+    // Delete the restaurant
+    await Restaurant.findByIdAndDelete(restaurant._id);
+    
+    res.json({ message: "Restaurant deleted successfully" });
+  } catch (error) {
+    console.error("Delete restaurant error:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
