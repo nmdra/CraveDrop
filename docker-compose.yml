@@ -3,6 +3,7 @@ services:
     image: nmdra/frontend
     build: ./frontend
     ports:
+      - "443:443"
       - "80:80"
     depends_on:
       - nginx
@@ -45,14 +46,14 @@ services:
     image: nmdra/notification-service
     build:
       context: ./notification-service
-      target: development 
+      target: production 
     container_name: notification-service
     hostname: notification-service
     ports:
       - "3004:3000"
     env_file:
       - ./notification-service/.env
-    command: yarn dev
+    # command: yarn dev
     develop:
       watch:
         - action: rebuild
@@ -79,14 +80,14 @@ services:
     image: nmdra/email-service
     build:
       context: ./email-service
-      target: development 
+      target: production 
     container_name: email-service
     hostname: email-service
     ports:
       - "3005:3000"
     env_file:
       - ./email-service/.env
-    command: yarn dev
+    # command: yarn dev
     develop:
       watch:
         - action: rebuild
@@ -111,14 +112,14 @@ services:
     image: nmdra/sms-service
     build:
       context: ./sms-service
-      target: development 
+      target: production 
     container_name: sms-service
     hostname: sms-service
     ports:
       - "3006:3000"
     env_file:
       - ./sms-service/.env
-    command: yarn dev
+    # command: yarn dev
     develop:
       watch:
         - action: rebuild
