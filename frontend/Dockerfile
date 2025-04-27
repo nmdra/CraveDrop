@@ -14,15 +14,26 @@ COPY . .
 # Build the app
 RUN yarn build
 
-# Step 2: Serve the app with Nginx
-FROM nginx:alpine AS production
+# # Step 2: Serve the app with Nginx
+# FROM nginx:alpine AS production
 
-# Copy built app from builder
-COPY --from=builder /app/dist /usr/share/nginx/html
+# # Copy built app from builder
+# COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Optional: Custom Nginx config for SPA routing
-COPY Nginx/nginx.conf /etc/nginx/nginx.conf
+# # Optional: Custom Nginx config for SPA routing
+# COPY Nginx/nginx.conf /etc/nginx/nginx.conf
 
+# EXPOSE 80
+
+# CMD ["nginx", "-g", "daemon off;"]
+
+FROM caddy:2.10.0-alpine
+
+# Copy the Caddyfile
+COPY ./Caddyfile /etc/caddy/Caddyfile
+
+# Copy the static files from the builder
+COPY --from=builder /app/dist /srv/
+
+# Expose HTTP and HTTPS ports
 EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]

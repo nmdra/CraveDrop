@@ -17,7 +17,7 @@ app.use(httpLogger);
 app.use(cookieParser());
 
 // Healthcheck route
-app.get('/user/health', async (req, res) => {
+app.get('/api/user/health', async (req, res) => {
   try {
     await sequelize.authenticate();
     res.status(200).json({ status: 'ok' });
@@ -28,7 +28,7 @@ app.get('/user/health', async (req, res) => {
 });
 
 // API Versioning
-app.use(`/user/`, userRoutes);
+app.use(`/api/user/`, userRoutes);
 app.use(`/internal/user`, internalRoutes);
 
 app.use(notFound);

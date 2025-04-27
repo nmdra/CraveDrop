@@ -13,13 +13,13 @@ app.use(httpLogger);
 
 const PORT = process.env.PORT || 3000;
 
-app.get('/notify/health', (req, res) => {
+app.get('/api/notify/health', (req, res) => {
     res.status(200).json({ status: 'ok' });
 });
 
-app.use('/notify/send', notificationRoutes);
+app.use('/api/notify/send', notificationRoutes);
 
-app.use('/notify/message', notificationMessagesRoutes);
+app.use('/api/notify/message', notificationMessagesRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
@@ -32,6 +32,7 @@ const start = async () => {
         );
     } catch (err) {
         logger.error('Startup failed', err);
+
     }
 };
 

@@ -1,0 +1,12 @@
+https://localhost, https://cravedrop.local, https://127.0.0.1 {
+    redir http://{host}{uri} 301
+}
+
+http://localhost, http://cravedrop.local, http://127.0.0.1 {
+    root * /srv
+
+    route {
+        try_files {path} /index.html
+        file_server
+    }
+}
