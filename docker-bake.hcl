@@ -19,9 +19,9 @@ target "common" {
   }
   labels = {
     "org.opencontainers.image.vendor" = "CraveDrop"
-    "org.opencontainers.image.created" = "2025-04-28"
+    "org.opencontainers.image.created" = "${timestamp()}"
     "org.opencontainers.image.source" = "https://github.com/nmdra/cravedrop"
-    "org.opencontainers.image.authors" = "Nimendra <nimendraonline@gmail.com>"
+    "org.opencontainers.image.authors" = "Nimendra"
     "org.opencontainers.image.licenses" = "MIT"
   }
 }
