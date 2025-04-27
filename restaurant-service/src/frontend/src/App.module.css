@@ -1,0 +1,44 @@
+.appContainer {
+  min-height: 100vh;
+  background-color: var(--background-color);
+  transition: background-color 0.3s ease;
+}
+
+.darkModeToggle {
+  position: fixed;
+  bottom: 20px; /* Changed from top to bottom */
+  right: 20px;
+  padding: 0.5rem 1rem;
+  background: var(--primary-color);
+  color: var(--button-text);
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  z-index: 1000;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px var(--shadow-color);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.darkModeToggle:hover {
+  background: var(--secondary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px var(--shadow-color);
+}
+
+.darkModeToggle:active {
+  transform: translateY(0);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .darkModeToggle {
+    top: 10px;
+    right: 10px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}
