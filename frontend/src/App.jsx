@@ -25,7 +25,7 @@ import { CartProvider } from './Context/CartContext'
 import Home from './Pages/order/HomePage'
 import ProductDetails from './Pages/order/ProductDetails'
 import Cart from './Pages/order/CartPage'
-import Checkout from './Pages/order/CheckoutPage'
+import Checkout from './Pages/order/Checkoutpage'
 import Payment from './Pages/order/PaymentPage'
 import SuccessPage from './Pages/order/SuccessPage'
 
@@ -47,13 +47,12 @@ const router = createBrowserRouter(
                 </Route>
 
                 {/* order part */}
-                <Route path="/home" element={<Home/>} />
+                <Route path="/home" element={<Home />} />
                 <Route path="/products/:id" element={<ProductDetails />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/payment" element={<Payment />} />
-                <Route path="/success" element={<SuccessPage/>} />
-
+                <Route path="/success" element={<SuccessPage />} />
 
                 {/* Catch-all for 404 */}
                 <Route path="*" element={<NotFound />} />

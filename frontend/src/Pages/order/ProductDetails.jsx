@@ -17,7 +17,7 @@ function ProductDetailsPage() {
   const fetchProduct = useCallback(async () => {
     try {
       setIsLoading(true);
-      const res = await axios.get(`http://localhost:5000/api/products/${id}`);
+      const res = await axios.get(`/api/products/${id}`);
       setProduct(res.data);
     } catch (err) {
       console.error('Failed to fetch product', err);
