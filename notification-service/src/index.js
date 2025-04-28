@@ -4,6 +4,7 @@ import sequelize from './db/sequelize.js';
 import notificationRoutes from './routes/notificationRoutes.js';
 import { logger, httpLogger } from './middleware/logger.js';
 import { errorHandler, notFound } from './middleware/errorMiddleware.js';
+import notificationMessagesRoutes from './routes/notificationMessages.js';
 
 dotenv.config();
 const app = express();
@@ -12,11 +13,13 @@ app.use(httpLogger);
 
 const PORT = process.env.PORT || 3000;
 
-app.get('/notify/health', (req, res) => {
+app.get('/api/notify/health', (req, res) => {
     res.status(200).json({ status: 'ok' });
 });
 
-app.use('/notify', notificationRoutes);
+app.use('/api/notify/send', notificationRoutes);
+
+app.use('/api/notify/message', notificationMessagesRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
@@ -29,6 +32,7 @@ const start = async () => {
         );
     } catch (err) {
         logger.error('Startup failed', err);
+
     }
 };
 

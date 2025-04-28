@@ -36,36 +36,34 @@ class UserRepository {
         return this.findById(user.userId); // Return full user with associations
     }
 
-    async updateUser(user, updatedData = {}) {
-        const {
-            firstname, lastname, email, password,
-            contactNumber, birthday, pic, address
-        } = updatedData;
+    async updateUser(user) {
 
-        // Update base fields
-        if (firstname) user.firstname = firstname;
-        if (lastname) user.lastname = lastname;
-        if (email) user.email = email;
-        if (password) user.password = password;
-        if (contactNumber) user.contactNumber = contactNumber;
-        if (birthday) user.birthday = birthday;
-        if (pic) user.pic = pic;
-
-        // Save user changes
+        // Save the updated user
         await user.save();
 
-        // Update or create address
-        if (address) {
+        // Update or create the address if provided
+        if (user.defaultAddress) {
             const currentAddress = await Address.findOne({ where: { userId: user.userId } });
             if (currentAddress) {
-                await currentAddress.update(address);
+                await currentAddress.update(user.defaultAddress);
             } else {
-                await Address.create({ ...address, userId: user.userId });
+                await Address.create({ ...user.defaultAddress, userId: user.userId });
             }
         }
 
-        return this.findById(user.userId);
+        // Update or create the contact number if provided
+        if (user.contactNumber) {
+            const currentContactNumber = await MobileNumber.findOne({ where: { userId: user.userId } });
+            if (currentContactNumber) {
+                await currentContactNumber.update({ number: user.contactNumber });
+            } else {
+                await MobileNumber.create({ number: user.contactNumber, userId: user.userId });
+            }
+        }
+
+        return this.findById(user.userId); // Return the updated user with associations
     }
+
 
     async deleteById(userId) {
         // Delete address and mobile numbers first (foreign key constraints)

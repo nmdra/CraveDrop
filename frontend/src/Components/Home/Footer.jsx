@@ -1,48 +1,48 @@
-import { FaFacebookSquare } from "react-icons/fa";
-import { FaTiktok } from "react-icons/fa";
-import { FaMedium } from "react-icons/fa6";
-import logo from "../../assets/logo.png";
+import { FaFacebookSquare } from 'react-icons/fa'
+import { FaTiktok } from 'react-icons/fa'
+import { FaMedium } from 'react-icons/fa6'
+import logo from '../../assets/logo.png'
 
 const Footer = () => {
-  return (
-    <div className="mx-auto  max-w-7xl pb-3 pt-[1rem]">
-      <hr className="my-2 " />
-      <div className="grid grid-cols-2 pt-4 pb-8 md:grid-cols-4">
-        <div>
-          <img src={logo} alt="Logo" width={160} height={160} />
+    return (
+        <div className="mx-auto max-w-7xl pt-[1rem] pb-3">
+            <hr className="my-2" />
+            <div className="grid grid-cols-2 pt-4 pb-8 md:grid-cols-4">
+                <div>
+                    <img src={logo} alt="Logo" width={160} height={160} />
+                </div>
+                <div></div>
+                <div className="flex flex-col gap-y-4">
+                    <p className="hover:cursor-pointer hover:text-[#b8f724] hover:underline">
+                        Get Help
+                    </p>
+                    <p className="hover:cursor-pointer hover:text-[#b8f724] hover:underline">
+                        Add your Shop
+                    </p>
+                    <p className="hover:cursor-pointer hover:text-[#b8f724] hover:underline">
+                        Sign up to Deliver
+                    </p>
+                    <p className="hover:cursor-pointer hover:text-[#b8f724] hover:underline">
+                        Create a Business Account
+                    </p>
+                </div>
+                <div className="flex flex-col gap-y-4">
+                    <p className="hover:cursor-pointer hover:text-[#b8f724] hover:underline">
+                        Shops near me
+                    </p>
+                    <p className="hover:cursor-pointer hover:text-[#b8f724] hover:underline">
+                        View all cities
+                    </p>
+                    <p className="hover:cursor-pointer hover:text-[#b8f724] hover:underline">
+                        Pickup near me
+                    </p>
+                    <p className="hover:cursor-pointer hover:text-[#b8f724] hover:underline">
+                        About Farm cart
+                    </p>
+                </div>
+            </div>
         </div>
-        <div></div>
-        <div className="flex flex-col gap-y-4">
-          <p className="hover:text-[#b8f724] hover:underline hover:cursor-pointer">
-            Get Help
-          </p>
-          <p className="hover:text-[#b8f724] hover:underline hover:cursor-pointer">
-            Add your Shop
-          </p>
-          <p className="hover:text-[#b8f724] hover:underline hover:cursor-pointer">
-            Sign up to Deliver
-          </p>
-          <p className="hover:text-[#b8f724] hover:underline hover:cursor-pointer">
-            Create a Business Account
-          </p>
-        </div>
-        <div className="flex flex-col gap-y-4">
-          <p className="hover:text-[#b8f724] hover:underline hover:cursor-pointer">
-            Shops near me
-          </p>
-          <p className="hover:text-[#b8f724] hover:underline hover:cursor-pointer">
-            View all cities
-          </p>
-          <p className="hover:text-[#b8f724] hover:underline hover:cursor-pointer">
-            Pickup near me
-          </p>
-          <p className="hover:text-[#b8f724] hover:underline hover:cursor-pointer">
-            About Farm cart
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-};
+    )
+}
 
-export default Footer;
+export default Footer

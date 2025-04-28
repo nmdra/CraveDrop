@@ -1,49 +1,49 @@
-import { useState } from "react";
-import axios from "axios";
-import { useAuthContext } from "./useAuthContext";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react'
+import axios from 'axios'
+import { useAuthContext } from './useAuthContext'
+import { useNavigate } from 'react-router-dom'
 
 export const useRegister = () => {
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(null);
-  const { dispatch } = useAuthContext();
-  const navigate = useNavigate();
+    const [error, setError] = useState(null)
+    const [isLoading, setIsLoading] = useState(null)
+    const { dispatch } = useAuthContext()
+    const navigate = useNavigate()
 
-  const register = async (firstname, lastname, email, password) => {
-    setIsLoading(true);
-    setError(null);
+    const register = async (firstname, lastname, email, password) => {
+        setIsLoading(true)
+        setError(null)
 
-    try {
-      const response = await axios.post("/api/user/register", {
-        firstname,
-        lastname,
-        email,
-        password,
-      });
+        try {
+            const response = await axios.post('/api/user/register', {
+                firstname,
+                lastname,
+                email,
+                password,
+            })
 
-      const json = response.data;
-      console.log(json);
-      // save token and user details separately
-      localStorage.setItem("user", JSON.stringify(json));
+            const json = response.data
+            console.log(json)
+            // save token and user details separately
+            localStorage.setItem('user', JSON.stringify(json))
 
-      dispatch({ type: "REGISTER", payload: json });
+            dispatch({ type: 'REGISTER', payload: json })
 
-      setIsLoading(false);
-      navigate("/login");
-    } catch (error) {
-      console.error(error);
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        setError(error.response.data.message);
-      } else {
-        setError("Internal server error. Please try again later.");
-      }
-      setIsLoading(false);
+            setIsLoading(false)
+            navigate('/login')
+        } catch (error) {
+            console.error(error)
+            if (
+                error.response &&
+                error.response.data &&
+                error.response.data.message
+            ) {
+                setError(error.response.data.message)
+            } else {
+                setError('Internal server error. Please try again later.')
+            }
+            setIsLoading(false)
+        }
     }
-  };
 
-  return { error, isLoading, register };
-};
+    return { error, isLoading, register }
+}

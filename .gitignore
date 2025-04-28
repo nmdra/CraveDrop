@@ -82,6 +82,7 @@ web_modules/
 .env.test.local
 .env.production.local
 .env.local
+*.env
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -174,3 +175,5 @@ sketch
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/node,visualstudiocode,react
+
+manifests/ 

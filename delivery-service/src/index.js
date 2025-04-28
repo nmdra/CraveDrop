@@ -28,20 +28,20 @@ app.get('/', (req, res) => {
 });
 
 // Connect to MongoDB and start server
-const PORT = process.env.PORT || 4001;
+const PORT = pdrocess.env.PORT || 4001;
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('Connected to MongoDB');
-    
+
     const server = app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
-      
+
       // Initial check for ready orders when service starts
       autoAssignDriversToReadyOrders()
         .then(result => console.log('Initial assignment result:', result))
         .catch(err => console.error('Initial assignment error:', err));
-      
+
       // Set up a recurring check every 1 minute (60000 ms)
       setInterval(() => {
         console.log('Running scheduled assignment check');

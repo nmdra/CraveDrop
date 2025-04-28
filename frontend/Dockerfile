@@ -1,20 +1,26 @@
-# Stage 1: Build stage
-FROM node:22-alpine3.20 AS builder
+FROM node:22-alpine AS builder
 
-# Set the working directory
+ARG STRIPE_SECRET_KEY
+ARG VITE_MAPBOX_API_KEY
+
+ENV STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+ENV VITE_MAPBOX_API_KEY=${VITE_MAPBOX_API_KEY}}
+
 WORKDIR /app
 
-# Copy only package.json and package-lock.json to leverage Docker caching
-COPY package*.json ./
+COPY package.json yarn.lock ./
 
-# Install dependencies
-RUN npm install
+RUN yarn install
 
-# Copy the rest of the application source code
 COPY . .
 
-# Expose the necessary port
-EXPOSE 3001
+RUN yarn build
 
-# Serve the built application
-CMD ["npm", "run", "dev"]
+FROM caddy:2.10.0-alpine
+
+# Copy the Caddyfile
+COPY ./Caddyfile /etc/caddy/Caddyfile
+
+COPY --from=builder /app/dist /srv/
+
+EXPOSE 80

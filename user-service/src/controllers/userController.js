@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import userRepo from '../repositories/userRepository.js';
 import { validationResult } from 'express-validator';
+import { logger } from '../middleware/logger.js';
 
 // @desc    Register a new user
 // @route   POST /api/user
@@ -91,13 +92,15 @@ export const updateUser = async (req, res, next) => {
     }
 
     try {
-        const user = await userRepo.findById(req.user.userId);
+        const user = await userRepo.findById(req.userId);
         if (!user) return res.status(StatusCodes.NOT_FOUND).json({ message: 'User not found' });
 
         const {
             firstname, lastname, email, password,
             defaultAddress, contactNumber, pic, birthday
         } = req.body;
+
+        logger.info(req.body)
 
         user.firstname = firstname || user.firstname;
         user.lastname = lastname || user.lastname;
@@ -107,6 +110,8 @@ export const updateUser = async (req, res, next) => {
         user.contactNumber = contactNumber || user.contactNumber;
         user.pic = pic || user.pic;
         user.birthday = birthday || user.birthday;
+
+        logger.info(user.firstname);
 
         const updatedUser = await userRepo.updateUser(user);
 

@@ -27,7 +27,7 @@ router.post('/assign-driver', assignDriverToDelivery);
 router.get('/:id', getDeliveryDetails);
 router.post('/assign-ready-orders', manuallyAssignDrivers);
 
-// Status update route
+// Status dupdate route
 router.patch('/:id/status', updateDeliveryStatus);
 
 // New driver location update route

@@ -24,9 +24,9 @@ export const createOrder = async (req, res) => {
     } = req.body;
 
     // Validate required fields
-    if (!orderID || !customerID || !customername || !customercontact || 
-        !customerlocatiocordinate || !customerlocation || !shopid || !shopname || 
-        !shopcontact || !shoplocation || !shoplocationtext) {
+    if (!orderID || !customerID || !customername || !customercontact ||
+      !customerlocatiocordinate || !customerlocation || !shopid || !shopname ||
+      !shopcontact || !shoplocation || !shoplocationtext) {
       return res.status(StatusCodes.BAD_REQUEST).json({
         message: 'Missing required fields'
       });
@@ -34,7 +34,7 @@ export const createOrder = async (req, res) => {
 
     // Validate coordinate formats
     if (!Array.isArray(customerlocatiocordinate) || customerlocatiocordinate.length !== 2 ||
-        !Array.isArray(shoplocation) || shoplocation.length !== 2) {
+      !Array.isArray(shoplocation) || shoplocation.length !== 2) {
       return res.status(StatusCodes.BAD_REQUEST).json({
         message: 'Location coordinates must be in [longitude, latitude] format'
       });
@@ -115,10 +115,10 @@ export const updateOrderStatus = async (req, res) => {
 
     // Validate status
     const validStatuses = [
-      'PENDING', 'ACCEPTED', 'PREPARING', 
+      'PENDING', 'ACCEPTED', 'PREPARING',
       'READY_FOR_PICKUP', 'PICKED_UP', 'DELIVERED', 'CANCELLED'
     ];
-    
+
     if (!status || !validStatuses.includes(status)) {
       return res.status(StatusCodes.BAD_REQUEST).json({
         message: 'Invalid status',
@@ -160,9 +160,9 @@ export const updateOrderStatus = async (req, res) => {
 export const getOrdersByCustomer = async (req, res) => {
   try {
     const { customerId } = req.params;
-    
+
     const orders = await Order.find({ customerID: customerId });
-    
+
     return res.status(StatusCodes.OK).json(orders);
   } catch (error) {
     console.error('Error fetching customer orders:', error);

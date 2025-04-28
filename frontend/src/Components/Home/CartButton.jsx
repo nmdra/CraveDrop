@@ -10,7 +10,7 @@ const CartButton = ({ cartItemCount }) => {
                 className="text-black hover:text-gray-700"
             />
             {cartItemCount > 0 && (
-                <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
+                <span className="absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                     {cartItemCount}
                 </span>
             )}

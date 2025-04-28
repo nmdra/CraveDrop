@@ -1,11 +1,11 @@
-import { FaFacebookSquare, FaTwitter } from "react-icons/fa";
-import { FaTiktok } from "react-icons/fa";
-import { FaMedium, FaX } from "react-icons/fa6";
+import { FaFacebookSquare, FaTwitter } from 'react-icons/fa'
+import { FaTiktok } from 'react-icons/fa'
+import { FaMedium, FaX } from 'react-icons/fa6'
 
 const FooterDashboard = () => {
-  return (
-    <div className="mx-auto  max-w-7xl pb-5 pt-[2rem]">
-      {/* <div className="grid grid-cols-2 pt-10 pb-8 md:grid-cols-4">
+    return (
+        <div className="mx-auto max-w-7xl pt-[2rem] pb-5">
+            {/* <div className="grid grid-cols-2 pt-10 pb-8 md:grid-cols-4">
                 <div>
                     <h1 className="text-3xl font-bold ">FarmCart.</h1>
                 </div>
@@ -39,28 +39,28 @@ const FooterDashboard = () => {
                     </p>
                 </div>
             </div> */}
-      <hr className="" />
-      <div className="flex items-center justify-between ">
-        <div className="flex gap-5 pt-6 text-xl">
-          <FaFacebookSquare />
-          <FaTiktok />
-          <FaMedium />
-          <FaTwitter />
+            <hr className="" />
+            <div className="flex items-center justify-between">
+                <div className="flex gap-5 pt-6 text-xl">
+                    <FaFacebookSquare />
+                    <FaTiktok />
+                    <FaMedium />
+                    <FaTwitter />
+                </div>
+                <div className="flex items-center gap-4">
+                    <p className="hover:cursor-pointer hover:text-[#b8f724] hover:underline">
+                        Privacy Policy
+                    </p>
+                    <p className="hover:cursor-pointer hover:text-[#b8f724] hover:underline">
+                        Terms
+                    </p>
+                </div>
+                <div>
+                    <p>© 2025 CraveDrop Technologies Inc.</p>
+                </div>
+            </div>
         </div>
-        <div className="flex items-center gap-4 ">
-          <p className="hover:text-[#b8f724] hover:underline hover:cursor-pointer">
-            Privacy Policy
-          </p>
-          <p className="hover:text-[#b8f724] hover:underline hover:cursor-pointer">
-            Terms
-          </p>
-        </div>
-        <div>
-          <p>© 2025 CraveDrop Technologies Inc.</p>
-        </div>
-      </div>
-    </div>
-  );
-};
+    )
+}
 
-export default FooterDashboard;
+export default FooterDashboard
