@@ -28,6 +28,14 @@ spec:
                 port:
                   number: 80
 
+          - path: /api/orders(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: order-service
+                port:
+                  number: 80
+
           - path: /health(/|$)(.*)
             pathType: ImplementationSpecific
             backend:

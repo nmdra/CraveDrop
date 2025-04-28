@@ -3,6 +3,7 @@ resources:
   - deployments/notification-service-deployment.yaml
   - deployments/sms-service-deployment.yaml
   - deployments/user-service-deployment.yaml
+  - deployments/order-service-deployment.yaml
   - deployments/frontend-service-deployment.yaml
   - rabbitmq/rabbitmq.yaml
   - ingress/ingress.yaml
@@ -20,6 +21,9 @@ configMapGenerator:
   - name: user-service-env
     envs:
       - configs/user-service.env
+  - name: order-service-env
+    envs:
+      - configs/order-service.env
 
 generatorOptions:
   disableNameSuffixHash: true
