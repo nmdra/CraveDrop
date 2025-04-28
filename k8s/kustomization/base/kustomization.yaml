@@ -4,6 +4,7 @@ resources:
   - deployments/sms-service-deployment.yaml
   - deployments/user-service-deployment.yaml
   - deployments/order-service-deployment.yaml
+  - deployments/payment-service-deployment.yaml
   - deployments/frontend-service-deployment.yaml
   - rabbitmq/rabbitmq.yaml
   - ingress/ingress.yaml
@@ -24,6 +25,9 @@ configMapGenerator:
   - name: order-service-env
     envs:
       - configs/order-service.env
+  - name: payment-service-env
+    envs:
+      - configs/payment-service.env
 
 generatorOptions:
   disableNameSuffixHash: true

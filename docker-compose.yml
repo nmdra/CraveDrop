@@ -211,6 +211,18 @@ services:
     env_file:
       - ./order-service/.env
 
+  payment-service:
+    image: nmdra/payment-service
+    build:
+      context: ./payment-service
+      target: production 
+    container_name: payment-service
+    hostname: payment-service
+    ports:
+      - "3008:5000"
+    env_file:
+      - ./payment-service/.env
+
 volumes:
   pg_data:
 

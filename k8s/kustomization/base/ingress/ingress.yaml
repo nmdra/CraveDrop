@@ -36,6 +36,14 @@ spec:
                 port:
                   number: 80
 
+          - path: /api/payments(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: payment-service
+                port:
+                  number: 80
+
           - path: /health(/|$)(.*)
             pathType: ImplementationSpecific
             backend:

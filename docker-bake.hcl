@@ -28,7 +28,7 @@ target "common" {
 
 # Default group builds all services with their specified targets from docker-compose
 group "default" {
-  targets = ["frontend", "user-service", "notification-service", "email-service", "sms-service", "order-service"]
+  targets = ["frontend", "user-service", "notification-service", "email-service", "sms-service", "order-service", "payment-service"]
 }
 
 # Frontend service
@@ -70,9 +70,18 @@ target "sms-service" {
   tags = ["${REGISTRY}/sms-service:${TAG}"]
 }
 
+# Order Service
 target "order-service" {
   inherits = ["common"]
   context = "./order-service"
   target = "production"
   tags = ["${REGISTRY}/order-service:${TAG}"]
+}
+
+# Payment Service
+target "payment-service" {
+  inherits = ["common"]
+  context = "./payment-service"
+  target = "production"
+  tags = ["${REGISTRY}/payment-service:${TAG}"]
 }
