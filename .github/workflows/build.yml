@@ -38,3 +38,6 @@ jobs:
             *.labels.org.opencontainers.image.revision=${{ github.sha }}
             *.cache-from=type=gha
             *.cache-to=type=gha,mode=max
+        env:
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          VITE_MAPBOX_API_KEY: ${{ secrets.VITE_MAPBOX_API_KEY }}

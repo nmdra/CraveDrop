@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './service/db.js';
 import orderRoutes from './routes/order.route.js';
+import productsRoutes from './routes/product.route.js';
 
 dotenv.config();
 const app = express();
@@ -15,6 +16,7 @@ app.get('/api/orders/health', (req, res) => {
 
 // Versioned API route
 app.use('/api/orders', orderRoutes);
+app.use(`/api/products`, productsRoutes)
 
 // Connect MongoDB and start server
 const startServer = async () => {

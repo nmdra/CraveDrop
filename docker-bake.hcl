@@ -12,6 +12,9 @@ variable "TAG" {
   default = "latest"
 }
 
+variable "STRIPE_SECRET_KEY" {}
+variable "VITE_MAPBOX_API_KEY" {}
+
 # Define common build configuration
 target "common" {
   args = {
@@ -36,6 +39,10 @@ target "frontend" {
   inherits = ["common"]
   context = "./frontend"
   tags = ["${REGISTRY}/frontend:${TAG}"]
+  args = {
+        STRIPE_SECRET_KEY = "${STRIPE_SECRET_KEY}"
+        VITE_MAPBOX_API_KEY = "${VITE_MAPBOX_API_KEY}"
+    }
 }
 
 # User Service (default to development as in docker-compose)
