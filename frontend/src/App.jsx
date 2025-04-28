@@ -23,7 +23,7 @@ import Notifications from './Pages/Customer/Notifications'
 import OrderSummary from './Pages/Customer/OrderSummary'
 
 // Driver Pages
-import DriverList from './Components/Admin/DriverList'
+// import DriverList from './Components/Admin/DriverList'
 import DriverLogin from './Pages/Driver/LoginForm'
 import DriverRegister from './Pages/Driver/RegisterForm'
 import DriverDashboard from './Pages/Driver/DriverDashboard'
@@ -57,7 +57,7 @@ const router = createBrowserRouter(
             <Route path="register" element={<Register />} />
 
             {/* Admin Section */}
-            <Route path="admin/drivers" element={<DriverList />} />
+            {/* <Route path="admin/drivers" element={<DriverList />} /> */}
             <Route path="register-driver" element={<DriverRegister />} />
 
             {/* Deliveries */}
@@ -74,7 +74,7 @@ const router = createBrowserRouter(
             </Route>
 
             {/* Driver Section (Driver Layout) */}
-            <Route path="driver" element={<DriverLayout />}>
+            <Route path="/driver" element={<DriverLayout />}>
                 <Route path="login" element={<DriverLogin />} />
                 <Route path="dashboard" element={<DriverDashboard />} />
                 <Route path="profile" element={<DriverProfile />} />
