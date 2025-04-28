@@ -20,6 +20,15 @@ import Notifications from './Pages/Customer/Notifications'
 import SidebarLayout from './Layouts/SidebarLayout'
 import OrderSummary from './Pages/Customer/OrderSummary'
 
+//order part
+import { CartProvider } from './Context/CartContext'
+import Home from './Pages/order/HomePage'
+import ProductDetails from './Pages/order/ProductDetails'
+import Cart from './Pages/order/CartPage'
+import Checkout from './Pages/order/CheckoutPage'
+import Payment from './Pages/order/PaymentPage'
+import SuccessPage from './Pages/order/SuccessPage'
+
 const router = createBrowserRouter(
     createRoutesFromElements(
         <>
@@ -37,6 +46,15 @@ const router = createBrowserRouter(
                     <Route path="/orders/:orderId" element={<OrderSummary />} />
                 </Route>
 
+                {/* order part */}
+                <Route path="/home" element={<Home/>} />
+                <Route path="/products/:id" element={<ProductDetails />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/payment" element={<Payment />} />
+                <Route path="/success" element={<SuccessPage/>} />
+
+
                 {/* Catch-all for 404 */}
                 <Route path="*" element={<NotFound />} />
             </Route>
@@ -46,10 +64,10 @@ const router = createBrowserRouter(
 
 const App = () => {
     return (
-        <>
+        <CartProvider>
             <RouterProvider router={router} />
             <Toaster position="top-center" reverseOrder={false} />
-        </>
+        </CartProvider>
     )
 }
 
