@@ -11,7 +11,7 @@ export const createOrder = async (req, res) => {
     if (!userId || !Array.isArray(items) || items.length === 0 || !paymentMethod || !deliveryAddress) {
       return res.status(400).json({ message: 'Invalid request data' });
     }
-    
+
     let paymentClientSecret = null;
     let calculatedTotalAmount = 0;
     const enrichedItems = [];
@@ -61,6 +61,8 @@ export const createOrder = async (req, res) => {
 
     await order.save();
 
+    //TODO call notification
+
     res.status(201).json({
       message: 'Order created successfully',
       order,
@@ -76,16 +78,16 @@ export const createOrder = async (req, res) => {
 export const getOrdersByRestaurant = async (req, res) => {
   try {
     const { restaurantId } = req.params;
-    
+
     if (!restaurantId) {
       return res.status(400).json({ message: 'Restaurant ID is required' });
     }
-    
+
     // Find orders that contain items from the specified restaurant
     const orders = await Order.find({
       'items.restaurantId': restaurantId
     });
-    
+
     res.status(200).json(orders);
   } catch (error) {
     console.error('Get restaurant orders failed:', error);
@@ -134,13 +136,13 @@ export const getAllOrders = async (req, res) => {
   try {
     // Support filtering by restaurantId via query param
     const { restaurantId } = req.query;
-    
+
     let query = {};
     if (restaurantId) {
       // Find orders with items from this restaurant
       query = { 'items.restaurantId': restaurantId };
     }
-    
+
     const orders = await Order.find(query);
     res.status(200).json(orders);
   } catch (error) {
