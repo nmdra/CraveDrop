@@ -11,10 +11,8 @@ RUN yarn global add nodemon && yarn install --verbose
 
 COPY ./src .
 
-# Expose port for development
 EXPOSE 3001
 
-# Start application in watch mode for development
 CMD ["yarn", "dev"]
 
 # Production image
@@ -31,21 +29,19 @@ RUN yarn install --production --verbose && yarn cache clean
 
 COPY ./src .
 
-FROM cgr.dev/chainguard/node:latest AS production
+FROM node:22-alpine AS production
 
-LABEL org.opencontainers.image.title="userservice"
-LABEL org.opencontainers.image.description="CraveDrop User Service"
+LABEL org.opencontainers.image.title="email-service"
+LABEL org.opencontainers.image.description="CraveDrop Email Service"
 LABEL org.opencontainers.image.authors="Nimendra <nimendraonline@gmail.com>"
 LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.source="https://github.com/nmdra/cravedrop"
-
-ENV NODE_ENV=production
 
 WORKDIR /app
 
 COPY --from=builder /app .
 
-EXPOSE 5000
+EXPOSE 3000
 
-# Start the application
-CMD ["node", "server.js"]
+CMD [ "node", "index.js" ]
+

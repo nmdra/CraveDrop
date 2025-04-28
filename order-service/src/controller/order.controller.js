@@ -6,13 +6,14 @@ dotenv.config();
 
 export const createOrder = async (req, res) => {
   try {
-    const { userId, items, paymentMethod, currency, deliveryAddress, phoneNumber } = req.body;
+    const { userId, items, paymentMethod, totalAmount, currency, deliveryAddress, phoneNumber } = req.body;
 
-    if (!userId || !Array.isArray(items) || items.length === 0 || !paymentMethod || !currency || !deliveryAddress) {
+    if (!userId || !Array.isArray(items) || items.length === 0 || !paymentMethod || !deliveryAddress) {
       return res.status(400).json({ message: 'Invalid request data' });
     }
-
-    let totalAmount = 0;
+    
+    let paymentClientSecret = null;
+    let calculatedTotalAmount = 0;
     const enrichedItems = [];
 
     // Validate and enrich products
@@ -23,48 +24,76 @@ export const createOrder = async (req, res) => {
       }
 
       const itemTotal = product.price * item.quantity;
-      totalAmount += itemTotal;
+      calculatedTotalAmount += itemTotal;
 
       enrichedItems.push({
         productId: product._id,
         quantity: item.quantity,
         priceAtPurchase: product.price,
+        restaurantId: product.restaurantId || 'default-restaurant' // Include restaurant ID from product
       });
     }
 
-    let clientSecret = null;
-
-    // If payment method is card, call Payment Service
+    // For card payments, we already processed the payment in the frontend
+    // so we don't need to call the payment service again
     if (paymentMethod === 'card') {
-      const paymentResponse = await axios.post(process.env.PAYMENT_SERVICE_URL, {
-        amount: totalAmount,
-        currency,
-      });
-      clientSecret = paymentResponse.data.clientSecret;
+      // If payment was already processed, we use the totalAmount from the request
+      // and we don't need to generate a new client secret
+    } else if (paymentMethod === 'cash') {
+      // For cash payments, no need to process anything here
     }
 
-    // Create the Order
+    // Create the Order - use the provided totalAmount for card payments (already processed)
+    // or use calculated amount for cash payments
+    const finalAmount = paymentMethod === 'card' ? totalAmount : calculatedTotalAmount;
+
     const order = new Order({
       userId,
       items: enrichedItems,
-      totalAmount,
+      totalAmount: finalAmount,
+      currency: currency || 'usd', // Use provided currency or default to 'usd'
       paymentMethod,
-      paymentClientSecret: clientSecret,
+      paymentClientSecret,
       deliveryAddress,
       phoneNumber,
+      status: paymentMethod === 'card' ? 'paid' : 'pending', // If card payment, it's already paid
     });
 
-    const savedOrder = await order.save();
+    await order.save();
 
-    res.status(201).json(savedOrder);
+    res.status(201).json({
+      message: 'Order created successfully',
+      order,
+      paymentClientSecret,
+    });
   } catch (error) {
     console.error('Order creation failed:', error.message);
     res.status(500).json({ message: 'Something went wrong on the server' });
   }
 };
 
+// Add a new endpoint to get orders by restaurant ID
+export const getOrdersByRestaurant = async (req, res) => {
+  try {
+    const { restaurantId } = req.params;
+    
+    if (!restaurantId) {
+      return res.status(400).json({ message: 'Restaurant ID is required' });
+    }
+    
+    // Find orders that contain items from the specified restaurant
+    const orders = await Order.find({
+      'items.restaurantId': restaurantId
+    });
+    
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error('Get restaurant orders failed:', error);
+    res.status(500).json({ message: 'Something went wrong' });
+  }
+};
 
-
+// Rest of your controller functions remain the same
 export const getOrderById = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
@@ -103,7 +132,16 @@ export const deleteOrder = async (req, res) => {
 
 export const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find(); // Fetch all orders from the database
+    // Support filtering by restaurantId via query param
+    const { restaurantId } = req.query;
+    
+    let query = {};
+    if (restaurantId) {
+      // Find orders with items from this restaurant
+      query = { 'items.restaurantId': restaurantId };
+    }
+    
+    const orders = await Order.find(query);
     res.status(200).json(orders);
   } catch (error) {
     console.error('Get all orders failed:', error);

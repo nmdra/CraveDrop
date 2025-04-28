@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  delivery-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: delivery-service
+    hostname: delivery-service
+    ports:
+      - "4001:4001"
+    env_file:
+      - .env
+    volumes:
+      - ./src:/app/src
+      - /app/node_modules
+    networks:
+      - cravedrop-network
+    restart: unless-stopped
+    develop:
+      watch:
+        - action: rebuild
+          path: package.json
+        - action: sync+restart
+          path: src/
+          target: /app/src
+          ignore:
+            - node_modules
+
+networks:
+  cravedrop-network:
+    name: cravedrop-network
+    external: true

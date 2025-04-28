@@ -1,0 +1,25 @@
+resources:
+  - deployments/email-service-deployment.yaml
+  - deployments/notification-service-deployment.yaml
+  - deployments/sms-service-deployment.yaml
+  - deployments/user-service-deployment.yaml
+  - deployments/frontend-service-deployment.yaml
+  - rabbitmq/rabbitmq.yaml
+  - ingress/ingress.yaml
+
+configMapGenerator:
+  - name: email-service-env
+    envs:
+      - configs/email-service.env
+  - name: notification-service-env
+    envs:
+      - configs/notification-service.env
+  - name: sms-service-env
+    envs:
+      - configs/sms-service.env
+  - name: user-service-env
+    envs:
+      - configs/user-service.env
+
+generatorOptions:
+  disableNameSuffixHash: true

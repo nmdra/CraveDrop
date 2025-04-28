@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sms-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sms-service
+  template:
+    metadata:
+      labels:
+        app: sms-service
+    spec:
+      containers:
+        - name: sms-service
+          image: nmdra/sms-service
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          env:
+            - name: RABBITMQ_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: RABBITMQ_URL
+                  name: sms-service-env
+            - name: TWILIO_ACCOUNT_SID
+              valueFrom:
+                configMapKeyRef:
+                  key: TWILIO_ACCOUNT_SID
+                  name: sms-service-env
+            - name: TWILIO_AUTH_TOKEN
+              valueFrom:
+                configMapKeyRef:
+                  key: TWILIO_AUTH_TOKEN
+                  name: sms-service-env
+            - name: TWILIO_PHONE_NUMBER
+              valueFrom:
+                configMapKeyRef:
+                  key: TWILIO_PHONE_NUMBER
+                  name: sms-service-env
+      restartPolicy: Always
+      hostname: sms-service
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sms-service
+  namespace: default
+spec:
+  selector:
+    app: sms-service
+  ports:
+    - port: 80
+      targetPort: 3000
+  type: ClusterIP

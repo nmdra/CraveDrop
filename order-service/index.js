@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import connectDB from './service/db.js';
-import orderRoutes from './routes/order.route.js';
+import connectDB from './src/service/db.js';
+import orderRoutes from './src/routes/order.route.js';
 
 dotenv.config();
 const app = express();
