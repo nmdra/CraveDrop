@@ -18,9 +18,11 @@ const app = express();
 app.use(express.json());
 app.use(morgan('dev'));
 
+// TODO add healthcheck route here.
+
 // Routes
 app.use('/delivery', deliveryRoutes);
-app.use('/orders', orderRoutes);
+app.use('/orders', orderRoutes); // TODO change this /delivery/orders
 
 // Root route
 app.get('/', (req, res) => {
@@ -28,7 +30,7 @@ app.get('/', (req, res) => {
 });
 
 // Connect to MongoDB and start server
-const PORT = pdrocess.env.PORT || 4001;
+const PORT = process.env.PORT || 3000;
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {

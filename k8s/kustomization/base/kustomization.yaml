@@ -4,6 +4,8 @@ resources:
   - deployments/sms-service-deployment.yaml
   - deployments/user-service-deployment.yaml
   - deployments/order-service-deployment.yaml
+  - deployments/driver-service-deployment.yaml
+  - deployments/delivery-service-deployment.yaml
   - deployments/payment-service-deployment.yaml
   - deployments/frontend-service-deployment.yaml
   - rabbitmq/rabbitmq.yaml
@@ -28,6 +30,12 @@ configMapGenerator:
   - name: payment-service-env
     envs:
       - configs/payment-service.env
+  - name: driver-service-env
+    envs:
+      - configs/driver-service.env
+  - name: delivery-service-env
+    envs:
+      - configs/delivery-service.env
 
 generatorOptions:
   disableNameSuffixHash: true
