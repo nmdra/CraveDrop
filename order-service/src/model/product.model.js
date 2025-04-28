@@ -11,6 +11,11 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  restaurantId: {
+    type: String,
+    required: true,
+    default: 'default-restaurant' // Default value for existing products
+  },
   image: String,
 }, { timestamps: true });
 
