@@ -14,17 +14,19 @@ export const createOrder = async (req, res) => {
       customername,
       customercontact,
       customerlocatiocordinate,
+      customerlocation,
       shopid,
       shopname,
       shopcontact,
       shoplocation,
+      shoplocationtext,
       status = 'PENDING' // Default status
     } = req.body;
 
     // Validate required fields
     if (!orderID || !customerID || !customername || !customercontact || 
-        !customerlocatiocordinate || !shopid || !shopname || 
-        !shopcontact || !shoplocation) {
+        !customerlocatiocordinate || !customerlocation || !shopid || !shopname || 
+        !shopcontact || !shoplocation || !shoplocationtext) {
       return res.status(StatusCodes.BAD_REQUEST).json({
         message: 'Missing required fields'
       });
@@ -53,10 +55,12 @@ export const createOrder = async (req, res) => {
       customername,
       customercontact,
       customerlocatiocordinate,
+      customerlocation,
       shopid,
       shopname,
       shopcontact,
       shoplocation,
+      shoplocationtext,
       status
     });
 

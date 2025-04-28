@@ -1,9 +1,10 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import cors from 'cors';
+//import cors from 'cors';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import deliveryRoutes from './routes/deliveryRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
 import { autoAssignDriversToReadyOrders } from './controllers/deliveryController.js';
 
 // Load environment variables
@@ -13,12 +14,13 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors());
+//app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 
 // Routes
 app.use('/delivery', deliveryRoutes);
+app.use('/orders', orderRoutes);
 
 // Root route
 app.get('/', (req, res) => {
@@ -26,7 +28,7 @@ app.get('/', (req, res) => {
 });
 
 // Connect to MongoDB and start server
-const PORT = process.env.PORT || 4003;
+const PORT = process.env.PORT || 4001;
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {

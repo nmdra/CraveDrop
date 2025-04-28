@@ -22,6 +22,10 @@ const OrderSchema = new mongoose.Schema({
     type: [Number], // [longitude, latitude]
     required: true
   },
+  customerlocation: {
+    type: String,
+    required: false
+  },
   shopid: {
     type: String,
     required: true
@@ -37,6 +41,10 @@ const OrderSchema = new mongoose.Schema({
   shoplocation: {
     type: [Number], // [longitude, latitude]
     required: true
+  },
+  shoplocationtext: {
+    type: String,
+    required: false
   },
   status: {
     type: String,

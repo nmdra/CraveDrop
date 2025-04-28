@@ -22,6 +22,10 @@ const DeliverySchema = new mongoose.Schema({
     type: [Number], // [longitude, latitude]
     required: true
   },
+  customerlocation: {
+    type: String,
+    required: false
+  },
   driverid: {
     type: String,
     required: true
@@ -33,6 +37,10 @@ const DeliverySchema = new mongoose.Schema({
   driverlocation: {
     type: [Number], // [longitude, latitude]
     required: true
+  },
+  driverlocationtext: {
+    type: String,
+    default: ''
   },
   shopid: {
     type: String,
@@ -48,6 +56,10 @@ const DeliverySchema = new mongoose.Schema({
   },
   shoplocation: {
     type: [Number], // [longitude, latitude]
+    required: false
+  },
+  shoplocationtext: {
+    type: String,
     required: true
   },
   status: {

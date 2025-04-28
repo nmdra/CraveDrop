@@ -116,22 +116,25 @@ export const autoAssignDriversToReadyOrders = async () => {
         
         console.log(`Assigning order ${order.orderID} to driver ${nearestDriver._id} (${nearestDriver.firstName} ${nearestDriver.lastName})`);
         
-        // Create delivery entry - FIXED: Set status to 'ASSIGNED' instead of 'PICKED_UP'
+        // Create delivery entry with the new location text fields
         const delivery = await Delivery.create({
           orderID: order.orderID,
           customerID: order.customerID,
           customername: order.customername,
           customercontact: order.customercontact,
-          customerlocationcordinate: order.customerlocatiocordinate,
+          customerlocationcordinate: order.customerlocatiocordinate, // Fix typo here
+          customerlocation: order.customerlocation,
           driverid: nearestDriver._id,
           driverName: `${nearestDriver.firstName} ${nearestDriver.lastName}`,
           driverlocation: nearestDriver.currentLocation.coordinates,
+          driverlocationtext: nearestDriver.currentLocationText || '',
           shopid: order.shopid,
           shopname: order.shopname,
           shopcontact: order.shopcontact,
           shoplocation: order.shoplocation,
-          status: 'PICKED_UP',  // CHANGED: Set initial delivery status to ASSIGNED 
-          distanceToShop: minDistance.toFixed(2) // Store distance for reference
+          shoplocationtext: order.shoplocationtext,
+          status: 'ASSIGNED',
+          distanceToShop: minDistance.toFixed(2)
         });
         
         // Update order status
@@ -207,21 +210,24 @@ export const assignDriverToDelivery = async (req, res) => {
     // In a production app, you'd implement a matching algorithm based on proximity, etc.
     const selectedDriver = availableDrivers[0];
     
-    // Create delivery entry - FIXED: Set status to 'ASSIGNED' instead of 'PICKED_UP'
+    // Create delivery entry with the new location text fields
     const delivery = await Delivery.create({
       orderID: order.orderID,
       customerID: order.customerID,
       customername: order.customername,
       customercontact: order.customercontact,
-      customerlocationcordinate: order.customerlocatiocordinate,
+      customerlocationcordinate: order.customerlocatiocordinate, // Fix typo here
+      customerlocation: order.customerlocation,
       driverid: selectedDriver._id,
       driverName: `${selectedDriver.firstName} ${selectedDriver.lastName}`,
       driverlocation: selectedDriver.currentLocation.coordinates,
+      driverlocationtext: selectedDriver.currentLocationText || '',
       shopid: order.shopid,
       shopname: order.shopname,
       shopcontact: order.shopcontact,
       shoplocation: order.shoplocation,
-      status: 'PICKED_UP'  // CHANGED: Set initial delivery status to ASSIGNED
+      shoplocationtext: order.shoplocationtext,
+      status: 'ASSIGNED'
     });
     
     // Update order status
@@ -282,6 +288,229 @@ export const getDeliveryDetails = async (req, res) => {
     return res.status(500).json({ 
       message: 'Failed to get delivery details',
       error: error.message 
+    });
+  }
+};
+
+/**
+ * Get all deliveries
+ * @route GET /delivery/all
+ * @access Private
+ */
+export const getAllDeliveries = async (req, res) => {
+  try {
+    const deliveries = await Delivery.find();
+    return res.status(200).json(deliveries);
+  } catch (error) {
+    console.error('Error fetching all deliveries:', error);
+    return res.status(500).json({
+      message: 'Failed to fetch deliveries',
+      error: error.message
+    });
+  }
+};
+
+/**
+ * Get delivery by order ID
+ * @route GET /delivery/order/:orderId
+ * @access Private
+ */
+export const getDeliveryByOrderId = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    
+    const delivery = await Delivery.findOne({ orderID: orderId });
+    
+    if (!delivery) {
+      return res.status(404).json({ message: 'No delivery found for this order' });
+    }
+    
+    return res.status(200).json(delivery);
+  } catch (error) {
+    console.error('Error fetching delivery by order ID:', error);
+    return res.status(500).json({
+      message: 'Failed to fetch delivery',
+      error: error.message
+    });
+  }
+};
+
+/**
+ * Get all deliveries by driver ID
+ * @route GET /delivery/driver/:driverId
+ * @access Private
+ */
+export const getDeliveriesByDriverId = async (req, res) => {
+  try {
+    const { driverId } = req.params;
+    
+    const deliveries = await Delivery.find({ driverid: driverId });
+    
+    return res.status(200).json(deliveries);
+  } catch (error) {
+    console.error('Error fetching deliveries by driver ID:', error);
+    return res.status(500).json({
+      message: 'Failed to fetch deliveries',
+      error: error.message
+    });
+  }
+};
+
+/**
+ * Get all deliveries by shop ID
+ * @route GET /delivery/shop/:shopId
+ * @access Private
+ */
+export const getDeliveriesByShopId = async (req, res) => {
+  try {
+    const { shopId } = req.params;
+    
+    const deliveries = await Delivery.find({ shopid: shopId });
+    
+    return res.status(200).json(deliveries);
+  } catch (error) {
+    console.error('Error fetching deliveries by shop ID:', error);
+    return res.status(500).json({
+      message: 'Failed to fetch deliveries',
+      error: error.message
+    });
+  }
+};
+
+/**
+ * Get all deliveries by customer ID
+ * @route GET /delivery/customer/:customerId
+ * @access Private
+ */
+export const getDeliveriesByCustomerId = async (req, res) => {
+  try {
+    const { customerId } = req.params;
+    
+    const deliveries = await Delivery.find({ customerID: customerId });
+    
+    return res.status(200).json(deliveries);
+  } catch (error) {
+    console.error('Error fetching deliveries by customer ID:', error);
+    return res.status(500).json({
+      message: 'Failed to fetch deliveries',
+      error: error.message
+    });
+  }
+};
+
+/**
+ * Update delivery status
+ * @route PATCH /delivery/:id/status
+ * @access Private
+ */
+export const updateDeliveryStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    
+    // Validate status
+    const validStatuses = ['ASSIGNED', 'PICKED_UP', 'IN_TRANSIT', 'DELIVERED', 'FAILED', 'CANCELLED'];
+    
+    if (!status || !validStatuses.includes(status)) {
+      return res.status(400).json({
+        message: 'Invalid status',
+        validStatuses
+      });
+    }
+    
+    // Find and update delivery
+    const delivery = await Delivery.findById(id);
+    
+    if (!delivery) {
+      return res.status(404).json({
+        message: 'Delivery not found'
+      });
+    }
+    
+    // Update delivery status
+    delivery.status = status;
+    await delivery.save();
+    
+    // If delivery is marked as DELIVERED, update the corresponding order status
+    if (status === 'DELIVERED') {
+      const order = await Order.findOne({ orderID: delivery.orderID });
+      if (order) {
+        order.status = 'DELIVERED';
+        await order.save();
+        console.log(`Order ${delivery.orderID} marked as delivered`);
+      }
+    }
+    
+    // If delivery is marked as FAILED or CANCELLED, update driver availability
+    if (status === 'FAILED' || status === 'CANCELLED') {
+      try {
+        await updateDriverAvailability(delivery.driverid, true);
+        console.log(`Driver ${delivery.driverid} availability updated to true`);
+      } catch (err) {
+        console.error(`Failed to update driver availability: ${err.message}`);
+        // Continue with the process even if this fails
+      }
+    }
+    
+    return res.status(200).json({
+      message: 'Delivery status updated successfully',
+      delivery
+    });
+  } catch (error) {
+    console.error('Error updating delivery status:', error);
+    return res.status(500).json({
+      message: 'Failed to update delivery status',
+      error: error.message
+    });
+  }
+};
+
+/**
+ * Update driver location for a delivery
+ * @route PATCH /delivery/:id/driver-location
+ * @access Private
+ */
+export const updateDriverLocation = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { location, locationText } = req.body;
+    
+    // Validate location data
+    if (!location || !Array.isArray(location) || location.length !== 2 ||
+        typeof location[0] !== 'number' || typeof location[1] !== 'number') {
+      return res.status(400).json({
+        message: 'Invalid location format. Expected [longitude, latitude] array of numbers'
+      });
+    }
+    
+    // Find the delivery
+    const delivery = await Delivery.findById(id);
+    
+    if (!delivery) {
+      return res.status(404).json({
+        message: 'Delivery not found'
+      });
+    }
+    
+    // Update driver location
+    delivery.driverlocation = location;
+    
+    // Update driver location text if provided
+    if (locationText) {
+      delivery.driverlocationtext = locationText;
+    }
+    
+    await delivery.save();
+    
+    return res.status(200).json({
+      message: 'Driver location updated successfully',
+      delivery
+    });
+  } catch (error) {
+    console.error('Error updating driver location:', error);
+    return res.status(500).json({
+      message: 'Failed to update driver location',
+      error: error.message
     });
   }
 };
