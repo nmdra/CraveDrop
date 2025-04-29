@@ -223,6 +223,30 @@ services:
     env_file:
       - ./payment-service/.env
 
+  driver-service:
+    image: nmdra/driver-service
+    build:
+      context: ./driver-service
+      target: production 
+    container_name: driver-service
+    hostname: driver-service
+    ports:
+      - "3009:3000"
+    env_file:
+      - ./driver-service/.env
+
+  delivery-service:
+    image: nmdra/delivery-service
+    build:
+      context: ./delivery-service
+      target: production 
+    container_name: delivery-service
+    hostname: delivery-service
+    ports:
+      - "3010:3000"
+    env_file:
+      - ./delivery-service/.env
+
 volumes:
   pg_data:
 

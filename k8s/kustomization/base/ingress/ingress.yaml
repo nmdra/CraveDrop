@@ -52,6 +52,22 @@ spec:
                 port:
                   number: 80
 
+          - path: /api/driver(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: driver-service
+                port:
+                  number: 80
+
+          - path: /api/delivery(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: deilivery-service
+                port:
+                  number: 80
+
           - path: /health(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
