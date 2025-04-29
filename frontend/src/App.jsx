@@ -29,6 +29,16 @@ import Checkout from './Pages/order/Checkoutpage'
 import Payment from './Pages/order/PaymentPage'
 import SuccessPage from './Pages/order/SuccessPage'
 
+//Restuarant part
+import RestuarantRegister from "./pages/Register.jsx";
+import RestuarantLogin from "./pages/Login.jsx";
+import RestuarantDashboard from "./pages/Dashboard.jsx";
+import RestuarantMenuManagement from './pages/MenuManagement.jsx';
+import RestuarantProfileSettings from "./pages/ProfileSettings.jsx";
+import RestuarantAdminDashboard from "./pages/AdminDashboard.jsx";
+import "./restaurnat.css";
+import Restuarantstyles from "./App.module.css";
+
 const router = createBrowserRouter(
     createRoutesFromElements(
         <>
@@ -53,6 +63,15 @@ const router = createBrowserRouter(
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/payment" element={<Payment />} />
                 <Route path="/success" element={<SuccessPage />} />
+
+                <Route path="/restaurant" element={<SidebarLayout />}>
+                    <Route path="/register" element={<RestuarantRegister />} />
+                    <Route path="/login" element={<RestuarantLogin />} />
+                    <Route path="/dashboard" element={<RestuarantDashboard/>} />
+                    <Route path="/menu-management" element={<RestuarantMenuManagement />} />
+                    <Route path="/profile" element={<RestuarantProfileSettings />} />
+                    <Route path="/admin/dashboard" element={<RestuarantAdminDashboard />} />
+                </Route>
 
                 {/* Catch-all for 404 */}
                 <Route path="*" element={<NotFound />} />

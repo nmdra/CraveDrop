@@ -1,0 +1,259 @@
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.container {
+  min-height: 100vh;
+  background: var(--background-color);
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  background: var(--card-background);
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px var(--shadow-color);
+  animation: fadeIn 0.6s ease-out;
+}
+
+.title {
+  color: var(--text-color);
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  position: relative;
+}
+
+.title:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: var(--primary-color);
+}
+
+.inputGroup {
+  margin-bottom: 1.8rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.6rem;
+  color: var(--text-color);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.input {
+  width: 100%;
+  padding: 0.9rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: var(--input-background);
+  color: var(--text-color);
+}
+
+.input:hover {
+  border-color: var(--text-secondary);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.3);
+  background: var(--card-background);
+}
+
+.button {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: var(--button-text);
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+.error {
+  color: var(--error-color);
+  text-align: center;
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.2);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.success {
+  color: var(--success-color);
+  text-align: center;
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  background: rgba(39, 174, 96, 0.1);
+  border: 1px solid rgba(39, 174, 96, 0.2);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.buttonLoading {
+  composes: button;
+  position: relative;
+  color: transparent;
+}
+
+.buttonLoading:after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid var(--button-text);
+  border-left-color: transparent;
+  border-top-color: var(--primary-color);
+  animation: spin 1s linear infinite;
+}
+
+.registerLink {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.registerLink a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.registerLink a:hover {
+  text-decoration: underline;
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Responsive design - retain existing media queries */
+
+/* Add these new styles to your existing CSS file */
+
+/* Required field indicator */
+.requiredStar {
+  color: var(--error-color);
+  margin-left: 0.2rem;
+}
+
+/* Password input container */
+.passwordInputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.togglePasswordBtn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.togglePasswordBtn:hover {
+  color: var(--primary-color);
+}
+
+/* Forgot password link */
+.forgotPassword {
+  text-align: right;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.forgotPassword a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.forgotPassword a:hover {
+  text-decoration: underline;
+  color: var(--secondary-color);
+}
+
+/* Animation for error messages */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.errorText {
+  animation: shake 0.6s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.loginTypeToggle {
+  display: flex;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.loginTypeButton {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  background: var(--input-background);
+  color: var(--text-color);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.loginTypeButton.active {
+  background: var(--primary-color);
+  color: white;
+}
+
+.loginTypeButton:hover:not(.active) {
+  background: var(--hover-background);
+}

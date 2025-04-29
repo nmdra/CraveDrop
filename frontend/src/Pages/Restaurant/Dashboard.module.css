@@ -1,0 +1,589 @@
+/* Base animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Main container */
+.dashboardContainer {
+  background-color: var(--background-color);
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: var(--text-color);
+  min-height: 100vh;
+}
+
+/* Header styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.headerTitle {
+  display: flex;
+  align-items: center;
+}
+
+.headerTitle h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.headerTitle span {
+  color: var(--primary-color);
+}
+
+.logo {
+  font-size: 1.8rem;
+  margin-right: 0.75rem;
+}
+
+/* Logout button */
+.logoutButton {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.logoutButton:hover {
+  background-color: var(--hover-background);
+  color: var(--error-color);
+  border-color: var(--error-color);
+}
+
+/* Profile section */
+.profileSection {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: var(--card-background);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px var(--shadow-color);
+  animation: fadeIn 0.5s ease;
+}
+
+.userAvatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.welcomeInfo {
+  flex: 1;
+}
+
+.welcomeHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.welcomeInfo h2 {
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--text-color);
+}
+
+.welcomeInfo p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.verificationBadge {
+  display: inline-block;
+}
+
+.verified, .pending {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.verified {
+  background-color: rgba(var(--success-color-rgb), 0.1);
+  color: var(--success-color);
+}
+
+.pending {
+  background-color: rgba(var(--primary-color-rgb), 0.1);
+  color: var(--primary-color);
+}
+
+/* Dashboard grid */
+.dashboardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Cards */
+.dashboardCard {
+  background: var(--card-background);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px var(--shadow-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeIn 0.5s ease;
+}
+
+.dashboardCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px var(--shadow-color);
+}
+
+.cardHeader {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cardHeader h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.cardContent {
+  padding: 1.5rem;
+}
+
+/* Status styles */
+.statusInfo {
+  margin-bottom: 1.5rem;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.statusOpen {
+  background-color: rgba(var(--success-color-rgb), 0.1);
+  color: var(--success-color);
+}
+
+.statusClosed {
+  background-color: rgba(var(--error-color-rgb), 0.1);
+  color: var(--error-color);
+}
+
+.statusHint {
+  color: var(--text-secondary);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.statusToggleButton {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.openButton {
+  background-color: rgba(var(--success-color-rgb), 0.1);
+  color: var(--success-color);
+}
+
+.openButton:hover {
+  background-color: rgba(var(--success-color-rgb), 0.2);
+}
+
+.closeButton {
+  background-color: rgba(var(--error-color-rgb), 0.1);
+  color: var(--error-color);
+}
+
+.closeButton:hover {
+  background-color: rgba(var(--error-color-rgb), 0.2);
+}
+
+/* Menu stats */
+.menuStats {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.statCount {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.statLabel {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.emptyMenuHint {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: rgba(var(--primary-color-rgb), 0.05);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Location */
+.locationInfo {
+  margin-bottom: 1.5rem;
+}
+
+.address, .cityInfo {
+  margin: 0.25rem 0;
+}
+
+.noInfo {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Cuisine tags */
+.cuisineTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.cuisineTag {
+  background: var(--tag-background);
+  color: var(--tag-text);
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.noCuisine {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Action links */
+.actionLink {
+  display: inline-block;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.actionLink:hover {
+  color: var(--secondary-color);
+  transform: translateX(3px);
+}
+
+/* Quick actions section */
+.quickActionsSection {
+  margin-bottom: 2.5rem;
+}
+
+.sectionTitle {
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.quickActionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.quickActionCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--card-background);
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 2px 8px var(--shadow-color);
+  transition: all 0.3s ease;
+}
+
+.quickActionCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px var(--shadow-color);
+}
+
+.quickActionIcon {
+  font-size: 2rem;
+}
+
+.quickActionText {
+  flex: 1;
+}
+
+.quickActionText h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-color);
+}
+
+.quickActionText p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Recent menu section */
+.recentMenuSection {
+  background: var(--card-background);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px var(--shadow-color);
+  animation: fadeIn 0.5s ease;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.sectionHeader h3 {
+  margin: 0;
+}
+
+.viewAllLink {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.viewAllLink:hover {
+  color: var(--secondary-color);
+}
+
+.recentMenuGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.menuItemCard {
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--hover-background);
+  transition: all 0.3s ease;
+}
+
+.menuItemCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+.menuItemImage {
+  height: 120px;
+  overflow: hidden;
+}
+
+.menuItemImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.menuItemImagePlaceholder {
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--input-background);
+  color: var(--text-secondary);
+}
+
+.menuItemInfo {
+  padding: 1rem;
+}
+
+.menuItemInfo h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+.menuItemPrice {
+  margin: 0;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* Loading and error states */
+.loadingContainer, .errorMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(var(--primary-color-rgb), 0.1);
+  border-left-color: var(--primary-color);
+  border-radius: 50%;
+  animation: rotate 1s linear infinite;
+  margin-bottom: 1.5rem;
+}
+
+.errorMessage h2 {
+  margin-bottom: 1rem;
+  color: var(--error-color);
+}
+
+.errorMessage button {
+  padding: 0.8rem 1.5rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  transition: all 0.2s ease;
+}
+
+.errorMessage button:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Cover Photo Styles */
+.coverPhotoContainer {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.coverPhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.coverPhotoPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--hover-background) 0%, var(--card-background) 100%);
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+.editCoverButton {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0.8;
+  transition: all 0.2s ease;
+}
+
+.editIcon {
+  font-size: 1.1rem;
+}
+
+.editCoverButton:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.coverPhotoContainer:hover .coverPhoto {
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .dashboardContainer {
+    padding: 1rem;
+  }
+  
+  .profileSection {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .welcomeHeader {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .dashboardGrid, .quickActionGrid, .recentMenuGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .coverPhotoContainer {
+    height: 150px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .editCoverButton {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+}
