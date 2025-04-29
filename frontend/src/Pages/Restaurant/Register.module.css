@@ -1,0 +1,406 @@
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+/* Container variations for light and dark mode */
+.container {
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.dark {
+  background: #121212; /* True dark background */
+}
+
+.form {
+  background: white;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.6s ease-out;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.dark .form {
+  background: #1e1e1e; /* Darker form background */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.title {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  animation: slideIn 0.8s ease-out;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.dark .title {
+  color: #ffffff; /* Pure white text for title in dark mode */
+}
+
+.title:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: #e67e22;
+}
+
+.inputGroup {
+  margin-bottom: 1.8rem;
+  animation: fadeIn 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+.inputGroup:nth-child(2) { animation-delay: 0.1s; }
+.inputGroup:nth-child(3) { animation-delay: 0.2s; }
+.inputGroup:nth-child(4) { animation-delay: 0.3s; }
+
+.label {
+  display: block;
+  margin-bottom: 0.6rem;
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.dark .label {
+  color: #e0e0e0; /* Light grey for labels in dark mode */
+}
+
+.input {
+  width: 100%;
+  padding: 0.9rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #f8fafc;
+}
+
+.dark .input {
+  background: #2a2a2a; /* Dark input background */
+  border-color: #444444; /* Darker border */
+  color: #ffffff; /* White text */
+}
+
+.input:hover {
+  border-color: #bdc3c7;
+}
+
+.dark .input:hover {
+  border-color: #666666; /* Slightly lighter border on hover */
+}
+
+.input:focus {
+  border-color: #e67e22;
+  box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.2);
+  background: white;
+}
+
+.dark .input:focus {
+  border-color: #e67e22;
+  box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.3);
+  background: #333333; /* Slightly lighter than base for focus */
+}
+
+.textarea {
+  composes: input;
+  min-height: 120px;
+  resize: vertical;
+}
+
+.fileInput {
+  display: none;
+}
+
+.fileLabel {
+  display: block;
+  padding: 1rem;
+  background: #f8fafc;
+  border: 2px dashed #bdc3c7;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  color: #7f8c8d;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.dark .fileLabel {
+  background: #2a2a2a; /* Dark file input background */
+  border-color: #444444; /* Darker border */
+  color: #b0b0b0; /* Light grey text */
+}
+
+.fileLabel:hover {
+  border-color: #e67e22;
+  color: #e67e22;
+  background: rgba(230, 126, 34, 0.05);
+  transform: translateY(-1px);
+}
+
+.dark .fileLabel:hover {
+  border-color: #e67e22;
+  color: #e67e22;
+  background: rgba(230, 126, 34, 0.1);
+}
+
+.button {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(230, 126, 34, 0.3);
+  animation: pulse 1s infinite;
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+.error {
+  color: #ff6b6b; /* Brighter red for dark mode visibility */
+  text-align: center;
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.2);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.dark .error {
+  background: rgba(231, 76, 60, 0.15);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  color: #ff6b6b;
+}
+
+.success {
+  color: #27ae60;
+  text-align: center;
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  background: rgba(39, 174, 96, 0.1);
+  border: 1px solid rgba(39, 174, 96, 0.2);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.dark .success {
+  background: rgba(39, 174, 96, 0.15);
+  border: 1px solid rgba(39, 174, 96, 0.3);
+  color: #2ecc71; /* Brighter green for dark mode visibility */
+}
+
+/* Add these new styles to your existing CSS file */
+
+/* Form row for multi-column layout */
+.formRow {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.8rem;
+}
+
+.formRow .inputGroup {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+/* Required field indicator */
+.requiredStar {
+  color: #e74c3c;
+  margin-left: 0.2rem;
+}
+
+.dark .requiredStar {
+  color: #ff6b6b;
+}
+
+/* Character counter for textarea */
+.charCounter {
+  font-size: 0.75rem;
+  color: #7f8c8d;
+  text-align: right;
+  margin-top: 0.3rem;
+}
+
+.dark .charCounter {
+  color: #a0a0a0;
+}
+
+/* File hint text */
+.fileHint {
+  font-size: 0.75rem;
+  color: #7f8c8d;
+  margin-top: 0.3rem;
+}
+
+.dark .fileHint {
+  color: #a0a0a0;
+}
+
+/* Password strength meter */
+.passwordInputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.togglePasswordBtn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #7f8c8d;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.dark .togglePasswordBtn {
+  color: #a0a0a0;
+}
+
+.togglePasswordBtn:hover {
+  color: #e67e22;
+}
+
+.passwordStrength {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.strengthMeter {
+  flex: 1;
+  height: 4px;
+  background-color: #e0e0e0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.dark .strengthMeter {
+  background-color: #444444;
+}
+
+.strengthIndicator {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.weakPassword {
+  background-color: #e74c3c;
+}
+
+.mediumPassword {
+  background-color: #f39c12;
+}
+
+.strongPassword {
+  background-color: #2ecc71;
+}
+
+.strengthLabel {
+  font-size: 0.75rem;
+  min-width: 50px;
+}
+
+.weakPassword ~ .strengthLabel {
+  color: #e74c3c;
+}
+
+.mediumPassword ~ .strengthLabel {
+  color: #f39c12;
+}
+
+.strongPassword ~ .strengthLabel {
+  color: #2ecc71;
+}
+
+.dark .weakPassword ~ .strengthLabel {
+  color: #ff6b6b;
+}
+
+.dark .mediumPassword ~ .strengthLabel {
+  color: #f5b041;
+}
+
+.dark .strongPassword ~ .strengthLabel {
+  color: #2ecc71;
+}
+
+/* Focus states for accessibility */
+.input:focus, .textarea:focus {
+  outline: none;
+  border-color: #e67e22;
+  box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.3);
+}
+
+.dark .input:focus, .dark .textarea:focus {
+  border-color: #f39c12;
+  box-shadow: 0 0 0 2px rgba(243, 156, 18, 0.3);
+}
+
+/* Animation for error messages */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.errorText {
+  animation: shake 0.6s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* Responsive layout for form row on mobile */
+@media (max-width: 576px) {
+  .formRow {
+    flex-direction: column;
+    gap: 1.8rem;
+  }
+}

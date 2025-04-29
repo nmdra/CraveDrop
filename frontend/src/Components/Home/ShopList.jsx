@@ -97,7 +97,7 @@ const FoodList = () => {
             <div className="flex items-center justify-center pt-10 pb-[6rem]">
                 <button
                     className="rounded-lg bg-[#b8f724] px-10 py-4 hover:bg-[#f3ffc6]"
-                    onClick={() => navigate('/foods')}
+                    onClick={() => navigate('/home')}
                 >
                     View More
                 </button>

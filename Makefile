@@ -35,3 +35,6 @@ kustomize-view:
 
 kustomize-apply:
 	kubectl apply -k k8s/kustomization/base
+
+kustomize-delete:
+	kubectl delete -k k8s/kustomization/base

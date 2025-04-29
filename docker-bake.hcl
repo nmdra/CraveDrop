@@ -12,6 +12,9 @@ variable "TAG" {
   default = "latest"
 }
 
+variable "STRIPE_SECRET_KEY" {}
+variable "VITE_MAPBOX_API_KEY" {}
+
 # Define common build configuration
 target "common" {
   args = {
@@ -28,7 +31,7 @@ target "common" {
 
 # Default group builds all services with their specified targets from docker-compose
 group "default" {
-  targets = ["frontend", "user-service", "notification-service", "email-service", "sms-service"]
+  targets = ["frontend", "user-service", "notification-service", "email-service", "sms-service", "order-service", "payment-service"]
 }
 
 # Frontend service
@@ -36,6 +39,10 @@ target "frontend" {
   inherits = ["common"]
   context = "./frontend"
   tags = ["${REGISTRY}/frontend:${TAG}"]
+  args = {
+        STRIPE_SECRET_KEY = "${STRIPE_SECRET_KEY}"
+        VITE_MAPBOX_API_KEY = "${VITE_MAPBOX_API_KEY}"
+    }
 }
 
 # User Service (default to development as in docker-compose)
@@ -68,4 +75,20 @@ target "sms-service" {
   context = "./sms-service"
   target = "production"
   tags = ["${REGISTRY}/sms-service:${TAG}"]
+}
+
+# Order Service
+target "order-service" {
+  inherits = ["common"]
+  context = "./order-service"
+  target = "production"
+  tags = ["${REGISTRY}/order-service:${TAG}"]
+}
+
+# Payment Service
+target "payment-service" {
+  inherits = ["common"]
+  context = "./payment-service"
+  target = "production"
+  tags = ["${REGISTRY}/payment-service:${TAG}"]
 }
