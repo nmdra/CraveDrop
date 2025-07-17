@@ -41,46 +41,66 @@
 - API Gateway with NGINX
 
 ```mermaid
-flowchart TD
-  subgraph Client
-    A[Frontend App]
-  end
+%%{init: {"theme": "default"}}%%
+C4Container
+title Food Delivery Platform - Container Diagram
 
-  subgraph Gateway
-    B[NGINX API Gateway]
-  end
+Person(user, "User", "Orders food via web/mobile app")
 
-  subgraph Services
-    C[User Service]
-    D[Order Service]
-    E[Restaurant Service]
-    F[Payment Service]
-    G[Notification Service]
-    H[Email Service]
-    I[SMS Service]
-  end
+Container_Boundary(client, "Client") {
+    Container(frontend, "Frontend App", "React/JavaScript", "User interface for ordering and tracking")
+}
 
-  subgraph Messaging
-    J[RabbitMQ]
-  end
+Container_Boundary(gateway, "API Gateway") {
+    Container(api_gw, "NGINX Gateway", "NGINX", "Routes API requests")
+}
 
-  subgraph Database
-    K[(PostgreSQL)]
-  end
+Container_Boundary(svc, "Services") {
+    Container(user_svc, "User Service", "Node.js", "Authentication and User management")
+    Container(order_svc, "Order Service", "Node.js", "Order placement and tracking")
+    Container(rest_svc, "Restaurant Service", "Node.js", "Restaurant data and menus")
+    Container(payment_svc, "Payment Service", "Node.js", "Payment processing")
+    Container(notif_svc, "Notification Service", "Node.js", "Notification delivery")
+    ContainerQueue(rabbit, "RabbitMQ", "AMQP", "Handles async events and jobs")
+    Container(email, "Email Service", "SMTP", "Sends email notifications")
+    Container(sms, "SMS Service", "SMS Gateway", "Delivers SMS notifications")
+}
 
-  A --> B
-  B --> C
-  B --> D
-  B --> E
-  B --> F
-  B --> G
-  C --> K
-  D --> K
-  E --> K
-  F --> K
-  G --> J
-  H --> J
-  I --> J
+ContainerDb(user_db, "User DB", "PostgreSQL", "Stores users")
+ContainerDb(order_db, "Order DB", "PostgreSQL", "Stores orders")
+ContainerDb(rest_db, "Restaurant DB", "PostgreSQL", "Stores restaurants")
+ContainerDb(payment_db, "Payment DB", "PostgreSQL", "Stores payments")
+ContainerDb(notif_db, "Notification DB", "PostgreSQL", "Stores notification records")
+
+Rel(user, frontend, "Uses", "HTTPS")
+Rel(frontend, api_gw, "API requests", "HTTPS")
+
+Rel(api_gw, user_svc, "Routes", "REST")
+Rel(api_gw, order_svc, "Routes", "REST")
+Rel(api_gw, rest_svc, "Routes", "REST")
+Rel(api_gw, payment_svc, "Routes", "REST")
+Rel(api_gw, notif_svc, "Routes", "REST")
+
+Rel(user_svc, user_db, "Reads/Writes")
+Rel(order_svc, order_db, "Reads/Writes")
+Rel(rest_svc, rest_db, "Reads/Writes")
+Rel(payment_svc, payment_db, "Reads/Writes")
+Rel(notif_svc, notif_db, "Reads/Writes")
+
+Rel(notif_svc, rabbit, "Publishes events", "AMQP")
+Rel(email, rabbit, "Consumes email jobs", "AMQP")
+Rel(sms, rabbit, "Consumes SMS jobs", "AMQP")
+Rel(notif_svc, email, "Sends email")
+Rel(notif_svc, sms, "Sends SMS")
+
+%% ' Layout optimization for readability
+UpdateLayoutConfig($c4ShapeInRow="4", $c4BoundaryInRow="2")
+
+%% ' Offset relationships to minimize overlap
+UpdateRelStyle(api_gw, user_svc, $offsetX="-60", $offsetY="-35")
+UpdateRelStyle(api_gw, order_svc, $offsetX="30", $offsetY="-35")
+UpdateRelStyle(api_gw, rest_svc, $offsetX="-60", $offsetY="35")
+UpdateRelStyle(api_gw, payment_svc, $offsetX="30", $offsetY="35")
 ```
 
 ## CI/CD
